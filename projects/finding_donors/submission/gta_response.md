@@ -18,7 +18,7 @@ This problem requires the use of a binary classifier to predict if a given salar
 
 * **Logistic Regression**
 * **Support Vector Machines**
-* **Gradient Boosting Classifier**
+* **Gaussian Naive Bayes**
 
 *Logistic Regression*
 
@@ -27,7 +27,7 @@ to churn."
 
 **What are the strengths of the model; when does it perform well?** Strengths of using logistic regression include the ability to output [probabilistic results](http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html#sklearn.linear_model.LogisticRegression.predict_proba) of the model. This can be of value since in some cases, we are not solely interested in knowing if a specific data point is in one class or another (i.e., class zero or one), but rather, knowing what is the probability that it belongs to one class or another (i.e, there is a 75% chance that this datapoint belongs to class one).  Another strength is that we are able to look at the weights (coefficients) of the terms (features) to identify the features that are most relevant to the overall prediction. For example, it is possible to know that out of all of the features, the most important feature is the `captial-gains` when determining if a user will make `>$50K`.
 
-**What are the weaknesses of the model; when does it perform poorly?** More needed here.
+**What are the weaknesses of the model; when does it perform poorly?** One **weakness** of this model is that it only be used to make binary classifications.  If you have a multi-class problem, then you're going to need to consider another model.  In addition, if your features are non-linear, then logistic regression may not work since it is a [linear model](https://stats.stackexchange.com/questions/93569/why-is-logistic-regression-a-linear-classifier) and requires the input features to be linear.
 
 **What makes this model a good candidate for the problem, given what you know about the data?** Logistic regression is a good candidate for this problem since we have a binary outcome, and an array of input features. As mentioned earlier, when using this model, we are not only able to know which class is being assigned to the datapoint, but also know the probability, or the strength that certain datapoint belongs to one class or another.  In other words, we will be able to find cases, where a user belongs to `>$50K` but by only small amount (e.g., 61%).  
 
@@ -38,22 +38,30 @@ to churn."
 
 **What are the strengths of the model; when does it perform well?** One strength of using support vector machine is that you are able to use the model on [small datasets](https://stats.stackexchange.com/questions/47209/what-are-good-techniques-for-modeling-small-datasets). Depending on the business case, you may not have access or have the ability to work with a *large* dataset, and this can have adverse impacts on the final results of the analysis. Knowing that a SVM works well with small datasets is of value in the case that you are trying to solve a classification problem but don't have access to a large dataset. 
 
-**What are the weaknesses of the model; when does it perform poorly?** One problem that I have read about when using a SVM is that training the model can be computationally intensive as the dataset get large (i.e., *O(n<sup>3</sup>)* for [Kernel Methods](https://stats.stackexchange.com/questions/327646/how-does-a-random-kitchen-sink-work)).  In the case of large datasets, sometimes, performing a [dimensionality reduction](http://people.eecs.berkeley.edu/~brecht/papers/07.rah.rec.nips.pdf) is needed to get the model to work efficiency.
+**What are the weaknesses of the model; when does it perform poorly?** One problem that I have read about when using a SVM is that training the model can be computationally intensive as the dataset get large (i.e., *O(n<sup>3</sup>)* for [Kernel Methods](https://stats.stackexchange.com/questions/327646/how-does-a-random-kitchen-sink-work)).  In the case of large datasets, sometimes, performing a [dimensionality reduction](http://people.eecs.berkeley.edu/~brecht/papers/07.rah.rec.nips.pdf) is needed to get the model to work efficiency.  In terms of performance, an [**SVM doesn't perform well** if you have highly skewed data](https://www.quora.com/For-what-kind-of-classification-problems-is-SVM-a-bad-approach) (like finding credit card fraud).
 
 **What makes this model a good candidate for the problem, given what you know about the data?** 
 
-More needed here.
+An SVM can perform well in this case since we are making a [binary classification.
+](https://www.quora.com/For-what-kind-of-classification-problems-is-SVM-a-bad-approach)
 
-*Gradient Boosting Classifier*
+*Gaussian Naive Bayes*
 
 **Describe one real-world application in industry where the model can be applied.** 
 
+One real world example of Gaussian Naive Bayes in the prediction of bankruptcies (see [here](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.84.7345&rep=rep1&type=pdf)).  A Gaussian Naive Bayes would work in this case since the features (gross revenue, expenditures, etc.) are continuous, as opposed to discrete.  
+
 **What are the strengths of the model; when does it perform well?** 
+
+A few strengths of the Gaussian Naive Bayes model is that is can make probabilistic predictions similar to logistic regression. In general, the model performs well even if you have a small dataset (see [here](https://www.quora.com/What-are-the-advantages-of-using-a-naive-Bayes-for-classification))
 
 **What are the weaknesses of the model; when does it perform poorly?** 
 
+One weakness of the model is that there is an assumption about the type of distribution that is being used in the model (either Gaussian or Multinomial). Therefore, if you have a dataset that maybe using another type of distribution, your model may not work properly.
 
 **What makes this model a good candidate for the problem, given what you know about the data?**
+
+The Gaussian Naive Bayes model works well in this case since we are working with a feature space that is continuous as opposed to discrete.
 
 ***
 
@@ -94,7 +102,7 @@ The logistic regression model is a classifier that can predict of a certain data
 
 How the model does this is quite complex, but it can be broken down into a few simple steps.
 
-First, as in the cat/dog case, the model determines what are the most important features of what makes a cat a cat and what makes a dog a dog.  For example, an important feature can be the length of the muzzle.  Dogs **tend** to have longer muzzles than cats.  
+First, as in the cat/dog case, the model determines what are the most important features of what makes a cat a cat and what makes a dog a dog based on the data that you provide.  For example, an important feature can be the length of the muzzle.  Dogs **tend** to have longer muzzles than cats and so on. 
 
 Second, once the model identifies the most important features, the model will look at a test point, or the point that you want to classify. Based on the features that the model thought was important, the model will look at the new data point and assign a probability (between 0-1) of  what class to place the point into. For example, if the new datapoint has a long muzzle, the model will likely assign a high probability (e.g, 0.8) to  classify the image as being a dog.  On the other hand, if the muzzle length is small, then the model may assign a smaller probability (e.g., 0.25) that the new point is a dog. When developing the model, the cut off point is typically 0.5 for classification.  This means that the model will assign the class if the probability is above or below 0.5 (> 0.5 will be assigned to class 1 and < 0.5 will be assigned to class 0). 
 
@@ -119,7 +127,7 @@ When **Exploring the Data**, it was shown there are thirteen available features 
 
 **Answer**
 
-Of the 13 features listed in the dataset, I believe that the five most important features that drive the prediction of making more than \$50,000 is, in decending order of importance:
+Of the 13 features listed in the dataset, I believe that the five most important features that drive the prediction of making more than \$50,000 is, in descending order of importance:
 
 * Education Level
 * Native County
@@ -147,7 +155,7 @@ Observe the visualization created above which displays the five most relevant fe
 * If you were close to the same answer, how does this visualization confirm your thoughts? 
 * If you were not close, why do you think these features are more relevant?
 
-**Answer**
+**Answer:  Question 7**
 
 In reviewing the chart created for Question 7, my predictions were very different than what the model came up with.  For example, the most important feature that the model predicted is `captial-gain` whereas I noted that `Native County`.  In fact, **none** of the features that I noted in my list appeared in the list of important features generated from the model. 
 
