@@ -11,7 +11,7 @@ In addition to implementing code, there will be questions that you must answer w
 
 **Note:** I am using `Python 3.6.3 :: Anaconda custom (64-bit)` for this workbook.
 
-## Getting Started
+##Getting Started
 
 In this project, you will employ several supervised algorithms of your choice to accurately model individuals' income using data collected from the 1994 U.S. Census. You will then choose the best candidate algorithm from preliminary results and further optimize this algorithm to best model the data. Your goal with this implementation is to construct a model that accurately predicts whether an individual makes more than $50,000. This sort of task can arise in a non-profit setting, where organizations survive on donations.  Understanding an individual's income can help a non-profit better understand how large of a donation to request, or whether or not they should reach out to begin with.  While it can be difficult to determine an individual's general income bracket directly from public sources, we can (as we will see) infer this value from other publically available features. 
 
@@ -85,7 +85,7 @@ display(data.head(n=1))
 </div>
 
 
-### Implementation: Data Exploration
+###Implementation: Data Exploration
 A cursory investigation of the dataset will determine how many individuals fit into either group, and will tell us about the percentage of these individuals making more than \$50,000. In the code cell below, you will need to compute the following:
 - The total number of records, `'n_records'`
 - The number of individuals making more than \$50,000 annually, `'n_greater_50k'`.
@@ -464,18 +464,26 @@ This problem requires the use of a binary classifier to predict if a given salar
 **Describe one real-world application in industry where the model can be applied.** Predicting a binary outcome, to understand customer churn.  In this [paper,](https://analytics.ncsu.edu/sesug/2017/SESUG2017_Paper-191_Final_PDF.pdf) Sean Ankerbruck, outlines a method that uses logistic regression to, "[]identify important factors that influence churn and classify individuals based on their predicted likelihood
 to churn."  
 
-**What are the strengths of the model; when does it perform well?** Strengths of using logistic regression include the ability to output [probabilistic results](http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html#sklearn.linear_model.LogisticRegression.predict_proba) of the model. This can be of value since in some cases, we are not solely interested in knowing if a specific data point is in one class or another (i.e., class zero or one), but rather, knowing what is the probability that it belongs to one class or another (i.e, there is a 75% chance that this datapoint belongs to class one).  Another strength is that we are able to look at the weights (coefficients) of the terms (features) to identify the features that are most relevant to the overall prediction. For example, it is possible to know that out of all of the features, the most important feature is the `captial-gains` when determining if a user will make `>$50K`.
+**What are the strengths of the model; when does it perform well?** Strengths of using logistic regression include the ability to output [probabilistic results](http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html#sklearn.linear_model.LogisticRegression.predict_proba) of the model. This can be of value since in some cases, we are not solely interested in knowing if a specific data point is in one class or another (i.e., class zero or one), but rather, knowing what is the probability that it belongs to one class or another (i.e, there is a 75% chance that this datapoint belongs to class one).  Another strength is that we are able to look at the weights (coefficients) of the terms (features) to identify the features that are most relevant to the overall prediction. For example, it is possible to know that out of all of the features, the most important feature is the `captial-gains` when determining if a user will make `>$50K`.  Another use of the coefficients is to know the following:
 
-**What are the weaknesses of the model; when does it perform poorly?** One **weakness** of this model is that it only be used to make binary classifications.  If you have a multi-class problem, then you're going to need to consider another model.  In addition, if your features are non-linear, then logistic regression may not work since it is a [linear model](https://stats.stackexchange.com/questions/93569/why-is-logistic-regression-a-linear-classifier) and requires the input features to be linear.
+>If I increase the captial-gains value by one unit, then what is the change in probability that class 1 is assigned?   
 
-**What makes this model a good candidate for the problem, given what you know about the data?** Logistic regression is a good candidate for this problem since we have a binary outcome, and an array of input features. As mentioned earlier, when using this model, we are not only able to know which class is being assigned to the datapoint, but also know the probability, or the strength that certain datapoint belongs to one class or another.  In other words, we will be able to find cases, where a user belongs to `>$50K` but by only small amount (e.g., 61%).  
+**What are the weaknesses of the model; when does it perform poorly?** One *weakness* of this model is that it only be used to make binary classifications.  If you have a multi-class problem, then you're going to need to consider another model.  In addition, if your features are non-linear, then logistic regression may not work since it is a [linear model](https://stats.stackexchange.com/questions/93569/why-is-logistic-regression-a-linear-classifier) and requires the dataset to be linearly separable.
+
+**What makes this model a good candidate for the problem, given what you know about the data?** Logistic regression is a good candidate for this problem since we have a binary outcome, and an array of input features. As mentioned earlier, when using this model, we are not only able to know which class is being assigned to the datapoint, but also know the probability, or the strength that certain datapoint belongs to one class or another.  In other words, we will be able to find cases, where a user belongs to `>$50K` but by only small amount (e.g., 61%). 
+
+
+
+
+
+
 
 
 *Support Vector Machines*
 
 **Describe one real-world application in industry where the model can be applied.** One example of using a support vector machine in the real-world includes the development of a  bankruptcy prediction model. In this [paper](http://citeseerx.ist.psu.edu/viewdoc/download;jsessionid=B21D947ACCF7DFA22075A071209C8836?doi=10.1.1.98.2804&rep=rep1&type=pdf), Shin, et. al., outlines the development of such a model using a "small" training dataset of 2,300 observations. 
 
-**What are the strengths of the model; when does it perform well?** One strength of using support vector machine is that you are able to use the model on [small datasets](https://stats.stackexchange.com/questions/47209/what-are-good-techniques-for-modeling-small-datasets). Depending on the business case, you may not have access or have the ability to work with a *large* dataset, and this can have adverse impacts on the final results of the analysis. Knowing that a SVM works well with small datasets is of value in the case that you are trying to solve a classification problem but don't have access to a large dataset. 
+**What are the strengths of the model; when does it perform well?** One strength of using support vector machine is that you are able to use the model on [small datasets](https://stats.stackexchange.com/questions/47209/what-are-good-techniques-for-modeling-small-datasets). Depending on the business case, you may not have access or have the ability to work with a *large* dataset, and this can have adverse impacts on the final results of the analysis. Knowing that a SVM works well with small datasets is of value in the case that you are trying to solve a classification problem but don't have access to a large dataset. In addition, if you have non-linear data, or data that is not linearly separable, then using an SVM with a [non-linear kernel like rbf may be of help](https://stats.stackexchange.com/questions/95340/comparing-svm-and-logistic-regression).
 
 **What are the weaknesses of the model; when does it perform poorly?** One problem that I have read about when using a SVM is that training the model can be computationally intensive as the dataset get large (i.e., *O(n<sup>3</sup>)* for [Kernel Methods](https://stats.stackexchange.com/questions/327646/how-does-a-random-kitchen-sink-work)).  In the case of large datasets, sometimes, performing a [dimensionality reduction](http://people.eecs.berkeley.edu/~brecht/papers/07.rah.rec.nips.pdf) is needed to get the model to work efficiency.  In terms of performance, an [**SVM doesn't perform well** if you have highly skewed data](https://www.quora.com/For-what-kind-of-classification-problems-is-SVM-a-bad-approach) (like finding credit card fraud).
 
@@ -500,7 +508,7 @@ One weakness of the model is that there is an assumption about the type of distr
 
 **What makes this model a good candidate for the problem, given what you know about the data?**
 
-The Gaussian Naive Bayes model works well in this case since we are working with a feature space that is continuous as opposed to discrete.
+In this case, the Gaussian Naive Bayes is a good candidate since the overlying assumption that all of the output features are independent of each other. When estimating salary, it is ideal to think that your earning potential should be based on [independent features as opposed to dependent ones.](https://www.quora.com/What-is-the-difference-between-logistic-regression-and-Naive-Bayes) For example, the salary of a 50 yr old female as opposed to a 50 yr old male should be based, on two features age, and gender, not both.  In society, it is quite common to have salaries be based on features that are dependent on each other as opposed to being independent. In addition, Gaussian Naive Bayes is a good candidate since we are working with a binary classification (just like the text book example of this model -- Spam classification). 
 
 
 ### Implementation - Creating a Training and Predicting Pipeline
@@ -667,13 +675,21 @@ When explaining your model, if using external resources please include all citat
 
 **Answer: Question 4**
 
-The logistic regression model is a classifier that can predict of a certain datapoint belongs to one class or another (think, is this a cat or a dog).  
+The logistic regression model is a classifier that can predict of a certain datapoint belongs to one class or another (think, is this a cat or a dog).
 
 How the model does this is quite complex, but it can be broken down into a few simple steps.
 
-First, as in the cat/dog case, the model determines what are the most important features of what makes a cat a cat and what makes a dog a dog based on the data you provide.  For example, an important feature can be the length of the muzzle.  Dogs **tend** to have longer muzzles than cats.  In general, the model is developing a quantative realtionship between each of the input values and the output class.  All of the imput values are assigned weights that determine how important that input value is when determining the output class.  Higher weights means the more important the feature or input value.
+First, as in the cat/dog case, the model determines what are the most important features of what makes a cat a cat and what makes a dog a dog based on the data you provide. For example, an important feature can be the length of the muzzle. Dogs tend to have longer muzzles than cats. 
 
-Second, once the model identifies the most important features, the model will look at a test point, or the point that you want to classify. Based on the features that the model thought was important, the model will look at the new data point and assign a probability (between 0-1) of  what class to place the point into. For example, if the new datapoint has a long muzzle, the model will likely assign a high probability (e.g, 0.8) to  classify the image as being a dog.  On the other hand, if the muzzle length is small, then the model may assign a smaller probability (e.g., 0.25) that the new point is a dog. When developing the model, the cut off point is typically 0.5 for classification.  This means that the model will assign the class if the probability is above or below 0.5 (> 0.5 will be assigned to class 1 and < 0.5 will be assigned to class 0). 
+In general, the model is developing a quantitive relationship between each of the input values (or features or characteristics) and the output class. As an example, muzzle length, tail length, height to top of head, body length, etc.
+
+During the training of the model, all of these characteristics are assigned weights that determine how important that input value is when determining the output class. These weights are continuous and can be positive or negative and a larger number for the weight means the more important the feature or input value is to the classification.
+
+Second, once the model identifies the most important features (or assigns the weights to each feature), the model will look at a test point, or the point that you want to classify. 
+
+Based on the features that the model thought was important, the model will look at the new data point and assign a probability (between 0-1) of what class to place the point into based on the features or input values for the new data point.
+
+For example, if the new datapoint has a long muzzle, the model will likely assign a high probability (e.g, 0.8) to classify the image as being a dog. On the other hand, if the muzzle length is small, then the model may assign a smaller probability (e.g., 0.25) that the new point is a dog. When developing the model, the cut off point is typically 0.5 for classification. This means that the model will assign the class if the probability is above or below 0.5 (> 0.5 will be assigned to class 1 and < 0.5 will be assigned to class 0).
 
 ### Implementation: Model Tuning
 Fine tune the chosen model. Use grid search (`GridSearchCV`) with at least one important parameter tuned with at least 3 different values. You will need to use the entire training set for this. In the code cell below, you will need to implement the following:
@@ -767,7 +783,7 @@ print(best_clf)
     ------
     LogisticRegression(C=1, class_weight=None, dual=False, fit_intercept=True,
               intercept_scaling=1, max_iter=100, multi_class='ovr', n_jobs=1,
-              penalty='l2', random_state=42, solver='liblinear', tol=0.0001,
+              penalty='l2', random_state=100, solver='liblinear', tol=0.0001,
               verbose=0, warm_start=False)
 
 
